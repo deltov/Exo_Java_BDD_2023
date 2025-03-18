@@ -1,94 +1,52 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
 <head>
-<title>Les chaines</title>
+<title>Les conditions</title>
 </head>
 <body bgcolor=white>
-<h1>Exercices sur les chaines de charactères</h1>
+<h1>Exercices sur les conditions</h1>
 <form action="#" method="post">
-    <p>Saisir une chaine (Du texte avec 6 caractères minimum) : <input type="text" id="inputValeur" name="chaine">
+    <p>Saisir la valeur 1 : <input type="text" id="inputValeur" name="valeur1">
+    <p>Saisir la valeur 2 : <input type="text" id="inputValeur" name="valeur2">
+    <p>Saisir la valeur 3 (pour Exercice 1) : <input type="text" id="inputValeur" name="valeur3">
     <p><input type="submit" value="Afficher">
 </form>
-<% String chaine = request.getParameter("chaine"); %>
 
-<% if (chaine != null && chaine.length() >= 6) { %>
+<% String valeur1 = request.getParameter("valeur1"); %>
+<% String valeur2 = request.getParameter("valeur2"); %>
+<% String valeur3 = request.getParameter("valeur3"); %>
 
-<% int longueurChaine = chaine.length(); %>
-<p>La longueur de votre chaîne est de <%= longueurChaine %> caractères</p>
+<% if (valeur1 != null && valeur2 != null) { %>
+    <% int intValeur1 = Integer.parseInt(valeur1); %>
+    <% int intValeur2 = Integer.parseInt(valeur2); %>
 
-<% char caractereExtrait = chaine.charAt(2); %>
-<p>Le 3° caractère de votre chaine est la lettre <%= caractereExtrait %></p>
+    <% if (intValeur1 > intValeur2) { %>
+        <p>Valeur 1 est supérieure à Valeur 2.</p>
+    <% } else if (intValeur1 < intValeur2) { %>
+        <p>Valeur 1 est inférieure à Valeur 2.</p>
+    <% } else { %>
+        <p>Valeur 1 est égale à Valeur 2.</p>
+    <% } %>
 
-<% String sousChaine = chaine.substring(2, 6); %>
-<p>Une sous chaine de votre texte : <%= sousChaine %></p>
-
-<% char recherche = 'e'; 
-   int position = chaine.indexOf(recherche); %>
-<p>Votre premier "e" est en : <%= position %></p>
-
-<h2>Exercice 1 : Combien de 'e' dans notre chaine de charactère ?</h2>
-<%
-    int compteurE = 0;
-    for (int i = 0; i < chaine.length(); i++) {
-        if (chaine.charAt(i) == 'e') {
-            compteurE++;
-        }
-    }
-%>
-<p>Le nombre de 'e' dans votre chaine est : <%= compteurE %></p>
-
-<h2>Exercice 2 : Affichage verticale</h2>
-<%
-    for (int i = 0; i < chaine.length(); i++) {
-%>
-<p><%= chaine.charAt(i) %></p>
+<h2>Exercice 1 : Comparaison 1</h2>
+<% if (valeur3 != null) { %>
+    <% int intValeur3 = Integer.parseInt(valeur3); %>
+    <% if ((intValeur3 > intValeur1 && intValeur3 < intValeur2) || (intValeur3 > intValeur2 && intValeur3 < intValeur1)) { %>
+        <p>Oui, C est compris entre A et B.</p>
+    <% } else { %>
+        <p>Non, C n'est pas compris entre A et B.</p>
+    <% } %>
 <% } %>
 
-<h2>Exercice 3 : Retour à la ligne</h2>
-<%
-    String[] mots = chaine.split(" ");
-    for (String mot : mots) {
-%>
-<p><%= mot %></p>
+<h2>Exercice 2 : Pair ou Impair ?</h2>
+<% if (valeur1 != null) { %>
+    <% if (intValeur1 % 2 == 0) { %>
+        <p>Valeur 1 est un nombre pair.</p>
+    <% } else { %>
+        <p>Valeur 1 est un nombre impair.</p>
+    <% } %>
 <% } %>
 
-<h2>Exercice 4 : Afficher une lettre sur deux</h2>
-<%
-    StringBuilder uneLettreSurDeux = new StringBuilder();
-    for (int i = 0; i < chaine.length(); i += 2) {
-        uneLettreSurDeux.append(chaine.charAt(i));
-    }
-%>
-<p><%= uneLettreSurDeux %></p>
-
-<h2>Exercice 5 : La phrase en verlant</h2>
-<%
-    StringBuilder verlant = new StringBuilder(chaine).reverse();
-%>
-<p><%= verlant %></p>
-
-<h2>Exercice 6 : Consonnes et voyelles</h2>
-<%
-    int voyelles = 0;
-    int consonnes = 0;
-    String voyelleLettres = "aeiouyAEIOUY";
-
-    for (int i = 0; i < chaine.length(); i++) {
-        char c = chaine.charAt(i);
-        if (Character.isLetter(c)) {
-            if (voyelleLettres.indexOf(c) != -1) {
-                voyelles++;
-            } else {
-                consonnes++;
-            }
-        }
-    }
-%>
-<p>Nombre de voyelles : <%= voyelles %></p>
-<p>Nombre de consonnes : <%= consonnes %></p>
-
-<% } else if (chaine != null) { %>
-<p>La chaîne saisie doit comporter au moins 6 caractères.</p>
 <% } %>
 
 <p><a href="index.html">Retour au sommaire</a></p>

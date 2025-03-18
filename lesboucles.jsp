@@ -1,51 +1,84 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
 <head>
-<title>Les conditions</title>
+<title>Les tableaux</title>
 </head>
 <body bgcolor=white>
-<h1>Exercices sur les conditions</h1>
+<h1>Exercices sur les tableaux</h1>
 <form action="#" method="post">
-    <p>Saisir la valeur 1 : <input type="text" id="inputValeur" name="valeur1">
-    <p>Saisir la valeur 2 : <input type="text" id="inputValeur" name="valeur2">
-    <p>Saisir la valeur 3 (pour Exercice 1) : <input type="text" id="inputValeur" name="valeur3">
+    <p>Saisir au minimum 3 chiffres à la suite, exemple : 6 78 15 <input type="text" id="inputValeur" name="chaine">
     <p><input type="submit" value="Afficher">
 </form>
 
-<% String valeur1 = request.getParameter("valeur1"); %>
-<% String valeur2 = request.getParameter("valeur2"); %>
-<% String valeur3 = request.getParameter("valeur3"); %>
+<% String chaine = request.getParameter("chaine"); %>
 
-<% if (valeur1 != null && valeur2 != null) { %>
-    <% int intValeur1 = Integer.parseInt(valeur1); %>
-    <% int intValeur2 = Integer.parseInt(valeur2); %>
+<% if (chaine != null) { %>
 
-    <% if (intValeur1 > intValeur2) { %>
-        <p>Valeur 1 est supérieure à Valeur 2.</p>
-    <% } else if (intValeur1 < intValeur2) { %>
-        <p>Valeur 1 est inférieure à Valeur 2.</p>
-    <% } else { %>
-        <p>Valeur 1 est égale à Valeur 2.</p>
-    <% } %>
+<% String[] tableauDeChiffres = chaine.split("\\s+"); %>
+<p>Le tableau contient <%= tableauDeChiffres.length %> valeurs</p>
 
-<h2>Exercice 1 : Comparaison 1</h2>
-<% if (valeur3 != null) { %>
-    <% int intValeur3 = Integer.parseInt(valeur3); %>
-    <% if ((intValeur3 > intValeur1 && intValeur3 < intValeur2) || (intValeur3 > intValeur2 && intValeur3 < intValeur1)) { %>
-        <p>Oui, C est compris entre A et B.</p>
-    <% } else { %>
-        <p>Non, C n'est pas compris entre A et B.</p>
-    <% } %>
-<% } %>
+<%
+    int[] chiffres = new int[tableauDeChiffres.length];
+    for (int i = 0; i < tableauDeChiffres.length; i++) {
+        chiffres[i] = Integer.parseInt(tableauDeChiffres[i]);
+    }
+%>
 
-<h2>Exercice 2 : Pair ou Impair ?</h2>
-<% if (valeur1 != null) { %>
-    <% if (intValeur1 % 2 == 0) { %>
-        <p>Valeur 1 est un nombre pair.</p>
-    <% } else { %>
-        <p>Valeur 1 est un nombre impair.</p>
-    <% } %>
-<% } %>
+<h2>Exercice 1 : Le carré de la première valeur</h2>
+<p>Le carré de la première valeur est : <%= chiffres[0] * chiffres[0] %></p>
+
+<h2>Exercice 2 : La somme des 2 premières valeurs</h2>
+<p>La somme des deux premières valeurs est : <%= chiffres[0] + chiffres[1] %></p>
+
+<h2>Exercice 3 : La somme de toutes les valeurs</h2>
+<%
+    int somme = 0;
+    for (int chiffre : chiffres) {
+        somme += chiffre;
+    }
+%>
+<p>La somme de toutes les valeurs est : <%= somme %></p>
+
+<h2>Exercice 4 : La valeur maximale</h2>
+<%
+    int max = chiffres[0];
+    for (int chiffre : chiffres) {
+        if (chiffre > max) max = chiffre;
+    }
+%>
+<p>La valeur maximale est : <%= max %></p>
+
+<h2>Exercice 5 : La valeur minimale</h2>
+<%
+    int min = chiffres[0];
+    for (int chiffre : chiffres) {
+        if (chiffre < min) min = chiffre;
+    }
+%>
+<p>La valeur minimale est : <%= min %></p>
+
+<h2>Exercice 6 : La valeur la plus proche de 0</h2>
+<%
+    int procheDeZero = chiffres[0];
+    for (int chiffre : chiffres) {
+        if (Math.abs(chiffre) < Math.abs(procheDeZero)) {
+            procheDeZero = chiffre;
+        }
+    }
+%>
+<p>La valeur la plus proche de 0 est : <%= procheDeZero %></p>
+
+<h2>Exercice 7 : La valeur la plus proche de 0 (version 2)</h2>
+<%
+    int procheDeZeroV2 = chiffres[0];
+    for (int chiffre : chiffres) {
+        if (Math.abs(chiffre) < Math.abs(procheDeZeroV2) ||
+           (Math.abs(chiffre) == Math.abs(procheDeZeroV2) && chiffre > 0)) {
+            procheDeZeroV2 = chiffre;
+        }
+    }
+%>
+<p>La valeur la plus proche de 0 (version 2) est : <%= procheDeZeroV2 %></p>
 
 <% } %>
 
